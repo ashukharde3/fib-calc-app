@@ -9,7 +9,7 @@ before_install:
 script:
   - docker run -e CI=true ashukharde3/react-test npm run test -- --coverage
 
-afterafter_success:
+after_success:
   - docker build -t ashukharde3/fib-calc-app-client ./client
   - docker build -t ashukharde3/fib-calc-app-server ./server
   - docker build -t ashukharde3/fib-calc-app-nginx ./nginx
