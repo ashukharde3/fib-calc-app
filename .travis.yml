@@ -1,0 +1,35 @@
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker build -t ashukharde3/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true ashukharde3/react-test npm run test -- --coverage
+
+afterafter_success:
+  - docker build -t ashukharde3/fib-calc-app-client ./client
+  - docker build -t ashukharde3/fib-calc-app-server ./server
+  - docker build -t ashukharde3/fib-calc-app-nginx ./nginx
+  - docker build -t ashukharde3/fib-calc-app-worker ./worker
+
+  #Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push ashukharde3/fib-calc-app-client
+  - docker push ashukharde3/fib-calc-app-server
+  - docker push ashukharde3/fib-calc-app-nginx
+  - docker push ashukharde3/fib-calc-app-worker
+
+  # deploy:
+#   provider: elasticbeanstalk
+#   region: "us-east-1"
+#   app: "docker-react"
+#   env: "Dockerreact-env"
+#   bucket_name: "elasticbeanstalk-us-east-1-699567010091"
+#   bucket_path: "docker-react"
+#   on:
+#     branch: master
+#   access_key_id: "$AWS_ACCESS_KEY"
+#   secret_access_key: "$AWS_SECRET_KEY"
