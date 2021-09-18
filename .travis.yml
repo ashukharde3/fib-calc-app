@@ -22,14 +22,14 @@ after_success:
   - docker push ashukharde3/fib-calc-app-nginx
   - docker push ashukharde3/fib-calc-app-worker
 
-  # deploy:
-#   provider: elasticbeanstalk
-#   region: "us-east-1"
-#   app: "docker-react"
-#   env: "Dockerreact-env"
-#   bucket_name: "elasticbeanstalk-us-east-1-699567010091"
-#   bucket_path: "docker-react"
-#   on:
-#     branch: master
-#   access_key_id: "$AWS_ACCESS_KEY"
-#   secret_access_key: "$AWS_SECRET_KEY"
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "fib-calc-app"
+  env: "Fibcalcapp-env"
+  bucket_name: "elasticbeanstalk-us-east-1-699567010091"
+  bucket_path: "fib-calc-app"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
